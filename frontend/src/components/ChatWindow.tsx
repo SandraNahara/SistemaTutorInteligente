@@ -4,23 +4,6 @@ import type { ChatMessage, Difficulty } from "../types/chat";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { MessageBubble } from "./MessageBubble";
 
-const topicOptions = [
-  "",
-  "Fundamentos de algoritmos",
-  "Estructuras de control",
-  "Complejidad algoritmica",
-  "Arreglos",
-  "Listas",
-  "Pilas",
-  "Colas",
-  "Busqueda secuencial",
-  "Busqueda binaria",
-  "Ordenamiento",
-  "Recursividad",
-  "Arboles binarios",
-  "Arboles binarios de busqueda"
-];
-
 const welcomeGreetingTemplates = [
   (name: string) => ({
     title: `Hola, ${name}. Listo para practicar AED I?`,
@@ -76,8 +59,6 @@ export function ChatWindow({
   onSendMessage
 }: ChatWindowProps): JSX.Element {
   const [message, setMessage] = useState("");
-  const [topic, setTopic] = useState("");
-  const [difficulty, setDifficulty] = useState<Difficulty | "">("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const welcomeGreeting = useMemo(() => {
@@ -111,9 +92,7 @@ export function ChatWindow({
     setMessage("");
 
     await onSendMessage({
-      message: content,
-      topic: topic || undefined,
-      difficulty: difficulty || undefined
+      message: content
     });
   };
 
@@ -132,32 +111,6 @@ export function ChatWindow({
           {activeSessionTitle ?? "Nueva conversacion"}
         </strong>
         <div className="chat-context-actions">
-          <div className="chat-selectors">
-            <label>
-              Tema
-              <select value={topic} onChange={(event) => setTopic(event.target.value)}>
-                {topicOptions.map((option) => (
-                  <option key={option || "todos"} value={option}>
-                    {option || "Sin tema fijo"}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Dificultad
-              <select
-                value={difficulty}
-                onChange={(event) =>
-                  setDifficulty(event.target.value as Difficulty | "")
-                }
-              >
-                <option value="">Sin nivel fijo</option>
-                <option value="basico">Basico</option>
-                <option value="intermedio">Intermedio</option>
-                <option value="avanzado">Avanzado</option>
-              </select>
-            </label>
-          </div>
           <button className="icon-button refresh-button" type="button" onClick={onRefresh}>
             <RefreshCw aria-hidden="true" size={18} />
             <span className="sr-only">Actualizar sesiones</span>

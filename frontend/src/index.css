@@ -197,8 +197,7 @@ a:hover {
   text-align: center;
 }
 
-.auth-form label,
-.chat-selectors label {
+.auth-form label {
   display: grid;
   gap: 6px;
   color: #344054;
@@ -207,7 +206,6 @@ a:hover {
 }
 
 .auth-form input,
-.chat-selectors select,
 .chat-input-bar textarea {
   width: 100%;
   border: 1px solid var(--border);
@@ -222,7 +220,7 @@ a:hover {
 }
 
 .auth-form input,
-.chat-selectors select {
+.auth-form select {
   min-width: 0;
   min-height: 42px;
   padding: 10px 12px;
@@ -235,7 +233,6 @@ a:hover {
 }
 
 .auth-form input:focus,
-.chat-selectors select:focus,
 .chat-input-bar textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgb(20 108 92 / 16%);
@@ -762,27 +759,6 @@ a:hover {
   min-width: 0;
 }
 
-.chat-selectors {
-  display: grid;
-  grid-template-columns: minmax(150px, 220px) minmax(130px, 180px);
-  gap: 8px;
-  min-width: 0;
-}
-
-.chat-selectors label {
-  color: #79728f;
-  font-size: 0.74rem;
-  gap: 4px;
-}
-
-.chat-selectors select {
-  min-height: 36px;
-  border-color: #ece6ff;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 86%);
-  padding: 7px 12px;
-}
-
 .messages-area {
   min-height: 0;
   overflow-y: auto;
@@ -1164,10 +1140,6 @@ a:hover {
     font-size: 1.15rem;
   }
 
-  .chat-selectors {
-    grid-template-columns: minmax(130px, 200px) minmax(120px, 170px);
-  }
-
   .messages-area {
     padding: 14px 18px;
   }
@@ -1316,19 +1288,13 @@ a:hover {
     padding: 12px 14px;
   }
 
-  .chat-selectors {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-  }
-
   .chat-context-title {
     max-width: none;
     font-size: 1.05rem;
   }
 
   .chat-context-actions {
-    display: contents;
+    display: flex;
   }
 
   .refresh-button {
@@ -1390,11 +1356,6 @@ a:hover {
     display: none;
   }
 
-  .chat-selectors {
-    grid-template-columns: minmax(180px, 260px) minmax(150px, 200px);
-    justify-content: end;
-  }
-
   .header-title h1 {
     font-size: 1.25rem;
   }
@@ -1441,10 +1402,6 @@ a:hover {
   .chat-context-title {
     max-width: none;
     font-size: 1.15rem;
-  }
-
-  .chat-selectors {
-    grid-template-columns: minmax(130px, 200px) minmax(120px, 170px);
   }
 
   .messages-area {
@@ -1549,15 +1506,6 @@ a:hover {
 
   .chat-context-title {
     font-size: 0.98rem;
-  }
-
-  .chat-selectors {
-    grid-template-columns: 1fr;
-  }
-
-  .chat-selectors select {
-    min-height: 44px;
-    border-radius: 12px;
   }
 
   .messages-container {
