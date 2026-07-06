@@ -60,15 +60,31 @@ export function ChatWindow({
 }: ChatWindowProps): JSX.Element {
   const [message, setMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const latestAssistantRef = useRef<HTMLDivElement | null>(null);
+  const previousMessageCountRef = useRef(messages.length);
   const welcomeGreeting = useMemo(() => {
     const greetingKey = `${activeSessionId ?? "inicio"}-${userName}`;
     return welcomeGreetingTemplates[getGreetingIndex(greetingKey)](userName);
   }, [activeSessionId, userName]);
 
+  const latestAssistantMessageId = useMemo(
+    () => [...messages].reverse().find((item) => item.role === "assistant")?.id,
+    [messages]
+  );
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, sending]);
+    const hasNewMessage = messages.length > previousMessageCountRef.current;
+    const lastMessage = messages.at(-1);
+
+    previousMessageCountRef.current = messages.length;
+
+    if (hasNewMessage && lastMessage?.role === "assistant") {
+      latestAssistantRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, [messages]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -81,9 +97,7 @@ export function ChatWindow({
     textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
   }, [message]);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const submitMessage = async () => {
     if (!message.trim() || sending) {
       return;
     }
@@ -94,6 +108,11 @@ export function ChatWindow({
     await onSendMessage({
       message: content
     });
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void submitMessage();
   };
 
   const handleSuggestion = (suggestion: string) => {
@@ -148,11 +167,16 @@ export function ChatWindow({
           ) : null}
 
           {messages.map((item) => (
-            <MessageBubble key={item.id} message={item} />
+            <div
+              key={item.id}
+              ref={item.id === latestAssistantMessageId ? latestAssistantRef : undefined}
+              className="message-anchor"
+            >
+              <MessageBubble message={item} />
+            </div>
           ))}
 
           {sending ? <LoadingIndicator asMessage /> : null}
-          <div ref={messagesEndRef} />
         </div>
       </div>
 
@@ -173,7 +197,10 @@ export function ChatWindow({
           />
           <button
             className="send-button"
-            type="submit"
+            type="button"
+            onClick={() => {
+              void submitMessage();
+            }}
             disabled={sending || message.trim().length === 0}
             title="Enviar mensaje"
           >

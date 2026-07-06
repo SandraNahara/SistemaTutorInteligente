@@ -829,6 +829,10 @@ a:hover {
   min-width: 0;
 }
 
+.message-anchor {
+  scroll-margin-top: 18px;
+}
+
 .message-row-user {
   justify-content: flex-end;
   margin-bottom: 24px;
