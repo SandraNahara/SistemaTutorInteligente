@@ -1,5 +1,12 @@
 import { RefreshCw, SendHorizonal } from "lucide-react";
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type KeyboardEvent
+} from "react";
 import type { ChatMessage, Difficulty } from "../types/chat";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { MessageBubble } from "./MessageBubble";
@@ -115,6 +122,15 @@ export function ChatWindow({
     void submitMessage();
   };
 
+  const handleMessageKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) {
+      return;
+    }
+
+    event.preventDefault();
+    void submitMessage();
+  };
+
   const handleSuggestion = (suggestion: string) => {
     setMessage(suggestion);
     textareaRef.current?.focus();
@@ -190,6 +206,7 @@ export function ChatWindow({
             id="chat-message"
             value={message}
             onChange={(event) => setMessage(event.target.value)}
+            onKeyDown={handleMessageKeyDown}
             placeholder="Escribi tu consulta sobre Algoritmos y Estructuras de Datos I..."
             rows={2}
             maxLength={4000}
