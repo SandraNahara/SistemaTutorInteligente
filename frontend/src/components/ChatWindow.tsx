@@ -74,7 +74,7 @@ export function ChatWindow({
 
   useEffect(() => {
     const hasNewMessage = messages.length > previousMessageCountRef.current;
-    const lastMessage = messages.at(-1);
+    const lastMessage = messages[messages.length - 1];
 
     previousMessageCountRef.current = messages.length;
 
