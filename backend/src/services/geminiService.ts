@@ -16,6 +16,14 @@ export const generateTutorAnswer = async (prompt: string) => {
       throw error;
     }
 
+    console.error("[gemini:error]", {
+      name: error instanceof Error ? error.name : "UnknownError",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error desconocido al generar respuesta."
+    });
+
     throw new AppError(
       "No se pudo conectar con Gemini. Intenta nuevamente mas tarde.",
       502
