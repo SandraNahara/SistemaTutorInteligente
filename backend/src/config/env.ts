@@ -6,6 +6,7 @@ type Env = {
   port: number;
   nodeEnv: string;
   corsOrigins: string[];
+  corsOriginPatterns: string[];
   supabaseUrl: string;
   supabaseAnonKey: string;
   supabaseServiceRoleKey: string;
@@ -32,11 +33,16 @@ const corsOrigins = (process.env.CORS_ORIGIN ?? defaultCorsOrigins.join(","))
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+const corsOriginPatterns = (process.env.CORS_ORIGIN_PATTERNS ?? "")
+  .split(",")
+  .map((pattern) => pattern.trim())
+  .filter(Boolean);
 
 export const env: Env = {
   port: Number(process.env.PORT ?? 3001),
   nodeEnv: process.env.NODE_ENV ?? "development",
   corsOrigins,
+  corsOriginPatterns,
   supabaseUrl: process.env.SUPABASE_URL as string,
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY as string,
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,

@@ -11,12 +11,25 @@ import { sessionRoutes } from "./routes/sessionRoutes.js";
 
 const app = express();
 
+const escapeRegex = (value: string) => value.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+
+const isCorsOriginAllowed = (origin: string) => {
+  if (env.corsOrigins.includes(origin)) {
+    return true;
+  }
+
+  return env.corsOriginPatterns.some((pattern) => {
+    const regex = new RegExp(`^${pattern.split("*").map(escapeRegex).join(".*")}$`);
+    return regex.test(origin);
+  });
+};
+
 app.disable("x-powered-by");
 app.use(securityHeadersMiddleware);
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || env.corsOrigins.includes(origin)) {
+      if (!origin || isCorsOriginAllowed(origin)) {
         callback(null, true);
         return;
       }
