@@ -165,10 +165,10 @@ export function ChatWindow({
               <p>{welcomeGreeting.body}</p>
               <div className="quick-suggestions" aria-label="Sugerencias rapidas">
                 {[
-                  "Que es una pila?",
-                  "Explicame busqueda binaria",
-                  "Generame un ejercicio basico de colas",
-                  "Que es recursividad?"
+                  "Muestrame un examen final de anos anteriores",
+                  "Generame un ejercicio tipo final sobre AVL",
+                  "Explicame heapSort como en examen",
+                  "Como implemento una pila con arreglo en C?"
                 ].map((suggestion) => (
                   <button
                     key={suggestion}

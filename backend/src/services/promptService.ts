@@ -9,6 +9,9 @@ type BuildPromptInput = {
   difficulty?: string;
 };
 
+const truncateText = (value: string, maxLength: number) =>
+  value.length > maxLength ? `${value.slice(0, maxLength).trim()}...` : value;
+
 const systemPrompt = `
 Eres un Sistema Tutor Inteligente academico para la asignatura Algoritmos y Estructuras de Datos I de la carrera de Ingenieria Informatica de la FIUNI.
 Tu funcion es apoyar el aprendizaje del estudiante mediante explicaciones claras, ejemplos, ejercicios guiados y retroalimentacion formativa.
@@ -22,18 +25,28 @@ Debes responder unicamente sobre contenidos de Algoritmos y Estructuras de Datos
 - estructuras secuenciales, condicionales e iterativas
 - complejidad temporal y espacial
 - notacion Big O
-- arreglos, listas, pilas y colas
+- lenguaje C aplicado a estructuras de datos: struct, typedef, punteros, paso por valor/referencia, macros simples, validaciones, memoria estatica y memoria dinamica
+- tipos de datos abstractos: interfaz, representacion, abstraccion, operaciones e implementaciones alternativas
+- arreglos, listas contiguas, listas enlazadas simples, listas doblemente enlazadas, listas circulares y nodo cabecera
+- pilas, colas, colas circulares, colas con prioridad y colas binomiales
+- operaciones de TDA: crear, insertar, buscar, borrar, destruir, es vacio, primero, ultimo, kesimo, push, pop, enqueue y dequeue
+- condiciones de error en estructuras lineales: overflow y underflow
 - busqueda secuencial y busqueda binaria
-- ordenamiento burbuja, seleccion e insercion
+- ordenamiento burbuja, seleccion, insercion y heapSort
 - recursividad
+- induccion matematica aplicada a algoritmos y sucesiones simples
 - arboles binarios y arboles binarios de busqueda
 - recorridos inorden, preorden y postorden
+- monticulos o heaps, propiedad de orden, insertar, eliminar minimo/maximo y obtener principal
+- arboles balanceados: AVL, rotaciones, factor de balance y arboles splay
+- analisis y practica de ejercicios tipo examen de la asignatura
 
 Si la consulta esta fuera del alcance, responde de forma amable que el tema no corresponde al dominio del tutor y sugiere reformular la pregunta dentro de Algoritmos y Estructuras de Datos I.
 
 Estilo:
 - responde siempre en espanol
 - usa tono academico, paciente y didactico
+- responde de forma directa y breve por defecto; desarrolla mas solo si el estudiante pide explicacion completa, solucion o paso a paso
 - explica paso a paso cuando sea util
 - usa Markdown
 - usa bloques de codigo solo cuando aporten claridad
@@ -67,7 +80,7 @@ const formatHistory = (history: Pick<ChatMessage, "role" | "content">[]) => {
   return history
     .map((item) => {
       const role = item.role === "user" ? "Estudiante" : "Tutor";
-      return `${role}: ${item.content}`;
+      return `${role}: ${truncateText(item.content, 600)}`;
     })
     .join("\n\n");
 };
@@ -87,7 +100,7 @@ const formatKnowledge = (knowledge: KnowledgeContext) => {
   const materials = knowledge.materials
     .map(
       (item) =>
-        `- ${item.title} (${item.type}, ${item.difficulty}): ${item.content}`
+        `- ${item.title} (${item.type}, ${item.difficulty}): ${truncateText(item.content, 700)}`
     )
     .join("\n");
 

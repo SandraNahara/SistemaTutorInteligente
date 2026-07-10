@@ -11,6 +11,7 @@ type Env = {
   supabaseServiceRoleKey: string;
   geminiApiKey: string;
   geminiModel: string;
+  geminiFallbackModels: string[];
 };
 
 const requiredVars = [
@@ -40,5 +41,9 @@ export const env: Env = {
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY as string,
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
   geminiApiKey: process.env.GEMINI_API_KEY as string,
-  geminiModel: process.env.GEMINI_MODEL ?? "gemini-2.5-flash"
+  geminiModel: process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
+  geminiFallbackModels: (process.env.GEMINI_FALLBACK_MODELS ?? "")
+    .split(",")
+    .map((model) => model.trim())
+    .filter(Boolean)
 };

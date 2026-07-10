@@ -59,7 +59,7 @@ export const sendChatMessage = async (
       difficulty
     });
 
-    const history = await getRecentMessages(supabase, userId, session.id, 10);
+    const history = await getRecentMessages(supabase, userId, session.id, 6);
     const knowledge = await findKnowledgeContext(supabase, message, topic);
     const prompt = buildTutorPrompt({
       message,
