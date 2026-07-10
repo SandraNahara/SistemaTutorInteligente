@@ -620,6 +620,19 @@ on conflict (topic_id, title) do nothing;
 insert into public.academic_materials (topic_id, title, content, source, type, difficulty)
 select
   kt.id,
+  'Examen final anterior reconstruido con respuestas',
+  'Modelo representativo basado en finales y ordinarios cargados. 1) Analisis de macro en C: explicar por que un macro que declara int var dentro de foo puede producir conflicto/redefinicion de variable; respuesta: el macro se expande textual dentro de la funcion, por eso queda una declaracion int var en el mismo bloque donde ya existe otra. 2) Big O: tres bucles anidados sobre arrayA, arrayB y una constante 100000; respuesta: O(A*B), porque el tercer bucle es constante. 3) Recorridos de arbol de expresion: pedir inorden, preorden y postorden; respuesta esperada: aplicar izquierda-raiz-derecha, raiz-izquierda-derecha e izquierda-derecha-raiz. 4) Underflow: respuesta: intentar extraer de una pila o cola vacia. 5) Heap y heapSort: definir heap como arbol completo con propiedad de orden; heapSort construye heap y extrae/intercambia la raiz con el ultimo elemento no ordenado hasta ordenar; complejidad O(n log n). 6) AVL: insertar una secuencia como 5,7,6,12,8 o 4,9,6,15 y pedir rotaciones; respuesta: calcular factor de balance en cada paso y aplicar rotacion simple o doble segun caso LL, RR, LR o RL. 7) Implementacion en C: completar pila con arreglo usando void**, cap y sp; create reserva memoria, push valida overflow, pop valida underflow y devuelve valor por void**. 8) Induccion: probar formulas de sucesiones con caso base, hipotesis inductiva y paso k+1.',
+  'AYUDITA C.pdf; Ultimo final C.pdf; Ordinario-Algoritmos-2021.pdf; Final.pdf; Resumen Algoritmos I.pdf',
+  'guia',
+  'avanzado'
+from public.knowledge_topics kt
+where kt.topic = 'Practica tipo examen'
+limit 1
+on conflict (topic_id, title) do nothing;
+
+insert into public.academic_materials (topic_id, title, content, source, type, difficulty)
+select
+  kt.id,
   'Resumen: Big O',
   'La notacion Big O describe como crece el costo de un algoritmo a medida que aumenta el tamano de la entrada. Por ejemplo, un recorrido simple de un arreglo suele tener complejidad temporal O(n), mientras que una busqueda binaria sobre datos ordenados tiene complejidad O(log n).',
   'Material base del prototipo Tutor Inteligente AED I',
