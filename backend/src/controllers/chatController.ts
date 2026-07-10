@@ -1,5 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../middlewares/errorMiddleware.js";
+import {
+  buildPreviousExamWithAnswers,
+  isPreviousExamWithAnswersRequest
+} from "../services/examPracticeService.js";
 import { generateTutorAnswer } from "../services/geminiService.js";
 import { findKnowledgeContext } from "../services/knowledgeService.js";
 import {
@@ -58,6 +62,28 @@ export const sendChatMessage = async (
       topic,
       difficulty
     });
+
+    if (isPreviousExamWithAnswersRequest(message)) {
+      const answer = buildPreviousExamWithAnswers();
+      const assistantMessage = await createMessage(supabase, {
+        sessionId: session.id,
+        userId,
+        role: "assistant",
+        content: answer,
+        topic,
+        difficulty
+      });
+
+      await touchSession(supabase, userId, session.id);
+
+      res.status(201).json({
+        sessionId: session.id,
+        answer,
+        messageId: assistantMessage.id,
+        userMessageId: userMessage.id
+      });
+      return;
+    }
 
     const history = await getRecentMessages(supabase, userId, session.id, 6);
     const knowledge = await findKnowledgeContext(supabase, message, topic);
