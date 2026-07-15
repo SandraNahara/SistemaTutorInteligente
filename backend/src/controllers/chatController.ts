@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../middlewares/errorMiddleware.js";
 import {
-  buildPreviousExamWithAnswers,
+  buildOriginalExamStylePractice,
   isPreviousExamWithAnswersRequest
 } from "../services/examPracticeService.js";
 import { generateTutorAnswer } from "../services/geminiService.js";
@@ -64,7 +64,7 @@ export const sendChatMessage = async (
     });
 
     if (isPreviousExamWithAnswersRequest(message)) {
-      const answer = buildPreviousExamWithAnswers();
+      const answer = buildOriginalExamStylePractice();
       const assistantMessage = await createMessage(supabase, {
         sessionId: session.id,
         userId,

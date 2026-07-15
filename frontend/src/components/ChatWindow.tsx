@@ -165,9 +165,9 @@ export function ChatWindow({
               <p>{welcomeGreeting.body}</p>
               <div className="quick-suggestions" aria-label="Sugerencias rapidas">
                 {[
-                  "Muestrame un examen final de anos anteriores",
-                  "Generame un ejercicio tipo final sobre AVL",
-                  "Explicame heapSort como en examen",
+                  "Explicame busqueda binaria paso a paso",
+                  "Generame un ejercicio original sobre AVL",
+                  "Explicame heapSort con un ejemplo",
                   "Como implemento una pila con arreglo en C?"
                 ].map((suggestion) => (
                   <button
