@@ -30,7 +30,7 @@ No puedo reproducir ni reconstruir examenes anteriores de forma literal. En su l
 
 ## Parte 1 - Macro en C
 
-**Enunciado original.** Dado el siguiente fragmento, indicar que ocurre al compilar y explicar por que:
+**Enunciado de practica.** Dado el siguiente fragmento, indicar que ocurre al compilar y explicar por que:
 
 \`\`\`c
 #include <stdio.h>
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
 ## Parte 2 - Complejidad Big O
 
-**Enunciado original.** Determinar la complejidad:
+**Enunciado de practica.** Determinar la complejidad:
 
 \`\`\`c
 for (int i = 0; i < A; i++) {
@@ -69,7 +69,7 @@ for (int i = 0; i < A; i++) {
 
 ## Parte 3 - Recorridos de arbol
 
-**Enunciado original.** Para un arbol de expresion propuesto por el docente o por vos, indicar los recorridos preorden, inorden y postorden.
+**Enunciado de practica.** Para un arbol de expresion propuesto por el docente o por vos, indicar los recorridos preorden, inorden y postorden.
 
 **Respuesta guia.**
 
@@ -81,13 +81,13 @@ Si el arbol representa una expresion, el postorden suele coincidir con notacion 
 
 ## Parte 4 - Underflow
 
-**Enunciado original.** A que se denomina underflow? Da un ejemplo con pila y otro con cola.
+**Enunciado de practica.** A que se denomina underflow? Da un ejemplo con pila y otro con cola.
 
 **Respuesta.** Underflow es intentar extraer un elemento de una estructura vacia, por ejemplo hacer \`pop\` sobre una pila vacia o \`dequeue\` sobre una cola vacia.
 
 ## Parte 5 - Heap y HeapSort
 
-**Enunciado original.** Definir monticulo y explicar HeapSort con sus pasos generales.
+**Enunciado de practica.** Definir monticulo y explicar HeapSort con sus pasos generales.
 
 **Respuesta.** Un heap o monticulo es un arbol completo que cumple una propiedad de orden. En un max-heap, cada padre es mayor o igual que sus hijos; en un min-heap, cada padre es menor o igual.
 
@@ -103,7 +103,7 @@ Complejidad temporal: **O(n log n)**. Espacio adicional: normalmente **O(1)** si
 
 ## Parte 6 - AVL
 
-**Enunciado original.** Insertar una secuencia corta de valores en un AVL e indicar en que momentos aparecen rotaciones. Por ejemplo, podes practicar con \`10, 20, 15, 25, 5\`.
+**Enunciado de practica.** Insertar la secuencia \`5, 7, 6, 12, 8\` en un AVL e indicar en que momentos aparecen rotaciones.
 
 **Respuesta resumida.**
 
@@ -117,7 +117,7 @@ La regla importante es calcular el factor de balance despues de cada insercion y
 
 ## Parte 7 - Pila con arreglo en C
 
-**Enunciado original.** Implementar \`create\`, \`push\`, \`pop\` e \`isEmpty\` para una pila con arreglo.
+**Enunciado de practica.** Implementar \`create\`, \`push\`, \`pop\` e \`isEmpty\` para una pila con arreglo.
 
 **Respuesta guia.**
 
@@ -136,7 +136,7 @@ typedef struct _stack {
 
 ## Parte 8 - Induccion
 
-**Enunciado original.** Probar: \`3 + 5 + 7 + ... + (2n + 1) = n(n + 2)\`.
+**Enunciado de practica.** Probar: \`3 + 5 + 7 + ... + (2n + 1) = n(n + 2)\`.
 
 **Respuesta resumida.**
 

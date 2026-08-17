@@ -266,6 +266,53 @@ values
   )
 on conflict (unit, topic, subtopic) do nothing;
 
+-- Cobertura canonica del programa oficial (CD No. 065/2015).
+insert into public.knowledge_topics (unit, topic, subtopic, difficulty, description, keywords)
+values
+  ('Unidad I', 'Lenguaje C', 'Macros y prototipos', 'intermedio', 'Expansion textual segura de macros, parentesis, efectos laterales, guardas de inclusion y declaracion de prototipos antes del uso.', array['macro', 'define', 'prototipo', 'funcion', 'header', 'include guard']),
+  ('Unidad I', 'Lenguaje C', 'Arreglos y punteros simples y dobles', 'intermedio', 'Relacion entre arreglos y punteros, paso por referencia, punteros a punteros, void* y void** aplicados a estructuras de datos.', array['arreglo', 'puntero', 'doble puntero', 'void*', 'void**', 'referencia']),
+  ('Unidad I', 'Lenguaje C', 'Struct y memoria estatica y dinamica', 'intermedio', 'Modelado con struct y typedef, duracion de almacenamiento y gestion completa de memoria con malloc, calloc, realloc y free.', array['struct', 'typedef', 'memoria estatica', 'memoria dinamica', 'malloc', 'calloc', 'realloc', 'free']),
+  ('Unidad II', 'Codificacion de Huffman', 'Arbol y codigos prefijo', 'avanzado', 'Compresion sin perdida basada en frecuencias: construccion greedy del arbol, generacion de codigos prefijo, codificacion y decodificacion.', array['huffman', 'codificacion', 'compresion', 'frecuencia', 'codigo prefijo', 'arbol']),
+  ('Unidad III', 'Propiedades de los algoritmos', 'Correccion, terminacion, eficiencia y complejidad', 'intermedio', 'Criterios para justificar que un algoritmo produce el resultado esperado, termina y usa recursos de manera analizable.', array['correcto', 'correccion', 'terminacion', 'eficiencia', 'complejidad', 'invariante']),
+  ('Unidad III', 'Demostracion por contradiccion', 'Estructura y aplicacion a algoritmos', 'intermedio', 'Prueba que supone falsa la afirmacion buscada y deriva una imposibilidad logica, diferenciandola de induccion y contrapositiva.', array['contradiccion', 'demostracion', 'prueba', 'suposicion', 'absurdo']),
+  ('Unidad III', 'Teoria de logaritmos', 'Propiedades y crecimiento', 'intermedio', 'Propiedades de logaritmos y su uso para analizar divisiones sucesivas, busqueda binaria, alturas y recurrencias.', array['logaritmo', 'log n', 'base', 'crecimiento', 'busqueda binaria', 'recurrencia']),
+  ('Unidad III', 'Notacion asintotica', 'O, Omega, Theta y o pequena', 'avanzado', 'Definiciones formales de cotas superior, inferior, ajustada y superior estricta, con constantes y umbral n0.', array['big o', 'omega', 'theta', 'o pequena', 'o chica', 'cota superior', 'cota inferior', 'cota ajustada']),
+  ('Unidad III', 'Algoritmos recursivos', 'Correccion, terminacion y complejidad', 'avanzado', 'Diseno con casos base y reduccion del problema, demostracion de terminacion y analisis mediante recurrencias.', array['recursion', 'recursividad', 'caso base', 'recurrencia', 'terminacion']),
+  ('Unidad IV', 'Shell Sort', 'Ordenamiento por incrementos', 'intermedio', 'Generalizacion de insercion que ordena subsecuencias separadas por gaps y reduce progresivamente el incremento hasta uno.', array['shell sort', 'shellsort', 'gap', 'incremento', 'ordenamiento']),
+  ('Unidad IV', 'Merge Sort', 'Division y mezcla', 'intermedio', 'Ordenamiento estable divide y venceras que divide el arreglo, ordena recursivamente y mezcla en tiempo lineal.', array['merge sort', 'mergesort', 'mezcla', 'divide y venceras', 'estable']),
+  ('Unidad IV', 'Quick Sort', 'Particion y pivote', 'avanzado', 'Ordenamiento divide y venceras que particiona alrededor de un pivote y analiza el efecto de su eleccion.', array['quick sort', 'quicksort', 'particion', 'pivote', 'lomuto', 'hoare']),
+  ('Unidad IV', 'Radix Sort', 'Ordenamiento por digitos', 'avanzado', 'Ordenamiento no comparativo que procesa claves por digitos usando un metodo estable como counting sort.', array['radix sort', 'radixsort', 'digito', 'base', 'counting sort', 'no comparativo']),
+  ('Unidad IV', 'HeapSort', 'Ordenamiento con monticulos', 'avanzado', 'Ordenamiento in-place que construye un heap y extrae repetidamente el elemento principal en O(n log n).', array['heapsort', 'heap sort', 'monticulo', 'heap', 'ordenamiento'])
+on conflict (unit, topic, subtopic) do update set
+  difficulty = excluded.difficulty,
+  description = excluded.description,
+  keywords = excluded.keywords;
+
+insert into public.academic_materials (topic_id, title, content, source, type, difficulty)
+select kt.id, material.title, material.content, 'Programa oficial AED I (CD No. 065/2015)', material.type, material.difficulty
+from (values
+  ('Lenguaje C', 'Macros y prototipos', 'Guia: macros y prototipos en C', 'Una macro se expande textualmente: sus parametros deben parentizarse y no deben evaluarse varias veces si pueden tener efectos laterales. Un prototipo declara nombre, retorno y parametros antes de la llamada, permitiendo al compilador verificar tipos. Practica con macros de expresion, guardas de inclusion y funciones equivalentes.', 'guia', 'intermedio'),
+  ('Lenguaje C', 'Arreglos y punteros simples y dobles', 'Guia: punteros simples y dobles', 'Un puntero simple guarda una direccion; un doble puntero guarda la direccion de otro puntero y permite modificarlo desde una funcion. En C, un arreglo suele decaer a puntero a su primer elemento, pero no es un puntero reasignable. Usar T** cuando una operacion deba cambiar el puntero del llamador o manejar arreglos de punteros.', 'guia', 'intermedio'),
+  ('Lenguaje C', 'Struct y memoria estatica y dinamica', 'Guia: struct y ciclo de vida de memoria', 'struct agrupa campos y typedef crea un alias. La memoria automatica se libera al salir del bloque; la dinamica debe reservarse, comprobarse y liberarse exactamente una vez. Al redimensionar, usar un puntero temporal con realloc para no perder el bloque original si falla.', 'guia', 'intermedio'),
+  ('Codificacion de Huffman', 'Arbol y codigos prefijo', 'Guia: codificacion de Huffman', 'Contar frecuencias, crear una hoja por simbolo, insertar las hojas en una cola de prioridad y combinar repetidamente los dos nodos de menor frecuencia. Asignar 0 y 1 a las ramas produce un codigo prefijo. Codificar concatena caminos; decodificar recorre el arbol hasta cada hoja. Con heap, construir el arbol cuesta O(k log k) para k simbolos.', 'guia', 'avanzado'),
+  ('Propiedades de los algoritmos', 'Correccion, terminacion, eficiencia y complejidad', 'Resumen: propiedades de un algoritmo', 'Correccion parcial prueba que, si termina, el resultado cumple la especificacion. Terminacion prueba que no ejecuta indefinidamente; juntas dan correccion total. La eficiencia estudia recursos y la complejidad expresa su crecimiento respecto del tamano de entrada.', 'teoria', 'intermedio'),
+  ('Demostracion por contradiccion', 'Estructura y aplicacion a algoritmos', 'Guia: demostracion por contradiccion', 'Para probar P, suponer no P, mantener explicitas las hipotesis y derivar una contradiccion con una propiedad conocida. Entonces no P es imposible y P debe ser verdadera. En algoritmos puede demostrar imposibilidad, unicidad o que una busqueda no descarta una solucion valida.', 'guia', 'intermedio'),
+  ('Teoria de logaritmos', 'Propiedades y crecimiento', 'Resumen: logaritmos para analizar algoritmos', 'log_b(n) indica cuantas veces se divide n por b hasta llegar a 1. En notacion asintotica la base constante solo cambia un factor: log_a(n)=log_b(n)/log_b(a). Son utiles en busqueda binaria, alturas de arboles balanceados y recurrencias de divide y venceras.', 'teoria', 'intermedio'),
+  ('Notacion asintotica', 'O, Omega, Theta y o pequena', 'Guia: O, Omega, Theta y o pequena', 'f pertenece a O(g) si queda acotada por arriba por c*g desde algun n0; pertenece a Omega(g) si queda acotada por abajo; pertenece a Theta(g) si ambas cotas coinciden. f pertenece a o(g) si f/g tiende a 0, una cota superior estricta. No confundir una cota del algoritmo con mejor o peor caso.', 'guia', 'avanzado'),
+  ('Algoritmos recursivos', 'Correccion, terminacion y complejidad', 'Guia: razonamiento sobre recursion', 'Definir casos base alcanzables y un caso recursivo que reduzca una medida no negativa. La reduccion demuestra terminacion; induccion puede demostrar correccion. El costo se modela con una recurrencia que incluye subproblemas y trabajo adicional.', 'guia', 'avanzado'),
+  ('Shell Sort', 'Ordenamiento por incrementos', 'Ficha: Shell Sort', 'Ordena por insercion elementos separados por una secuencia de gaps y termina con gap 1. Es in-place y normalmente no estable. Su complejidad depende de la secuencia de incrementos; con gaps n/2, n/4, ..., 1 el peor caso puede ser O(n^2), por lo que no debe afirmarse una unica cota para todas las secuencias.', 'teoria', 'intermedio'),
+  ('Merge Sort', 'Division y mezcla', 'Ficha: Merge Sort', 'Divide el arreglo en mitades, ordena cada mitad y las mezcla linealmente. Tiempo Theta(n log n) en mejor, promedio y peor caso; espacio auxiliar O(n) para arreglos. Es estable si durante empates se toma primero el elemento de la mitad izquierda y no suele ser in-place.', 'teoria', 'intermedio'),
+  ('Quick Sort', 'Particion y pivote', 'Ficha: Quick Sort', 'Particiona alrededor de un pivote y ordena recursivamente ambos lados. Tiempo promedio Theta(n log n), peor caso Theta(n^2) con particiones muy desbalanceadas; pila promedio O(log n) y peor O(n). Suele ser in-place y no estable. Aleatorizar el pivote reduce el riesgo sistematico.', 'teoria', 'avanzado'),
+  ('Radix Sort', 'Ordenamiento por digitos', 'Ficha: Radix Sort', 'Procesa d digitos de n claves usando un ordenamiento estable por cada digito. Con base b cuesta O(d(n+b)) y usa O(n+b) espacio auxiliar en una implementacion tipica. No es comparativo; exige definir representacion, base y tratamiento de negativos.', 'teoria', 'avanzado'),
+  ('HeapSort', 'Ordenamiento con monticulos', 'Ficha: HeapSort', 'Construye el heap en O(n) y realiza n extracciones de O(log n): tiempo Theta(n log n) en todos los casos. Es in-place con O(1) espacio auxiliar iterativo y normalmente no estable.', 'teoria', 'avanzado')
+) as material(topic, subtopic, title, content, type, difficulty)
+join public.knowledge_topics kt on kt.topic = material.topic and kt.subtopic = material.subtopic
+on conflict (topic_id, title) do update set
+  content = excluded.content,
+  source = excluded.source,
+  type = excluded.type,
+  difficulty = excluded.difficulty;
+
 insert into public.academic_materials (topic_id, title, content, source, type, difficulty)
 select
   kt.id,
