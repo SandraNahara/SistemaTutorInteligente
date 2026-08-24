@@ -99,9 +99,6 @@ export function LoginForm({
           required
         />
       </label>
-      <button className="text-link-button" type="button">
-        Olvidaste tu contrasena?
-      </button>
       <button className="primary-button" type="submit" disabled={submitting}>
         <LogIn aria-hidden="true" size={18} />
         {submitting ? "Ingresando..." : "Ingresar"}
