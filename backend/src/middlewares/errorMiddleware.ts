@@ -19,7 +19,7 @@ export const notFoundMiddleware = (
 
 export const errorMiddleware = (
   error: unknown,
-  _req: Request,
+  req: Request,
   res: Response,
   _next: NextFunction
 ) => {
@@ -28,6 +28,13 @@ export const errorMiddleware = (
     error instanceof Error
       ? error.message
       : "Ocurrio un error inesperado en el servidor.";
+
+  console.error("[api:error]", {
+    method: req.method,
+    path: req.originalUrl,
+    statusCode,
+    message
+  });
 
   res.status(statusCode).json({
     error: {

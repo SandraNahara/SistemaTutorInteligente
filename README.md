@@ -55,6 +55,8 @@ Backend:
 PORT=3001
 NODE_ENV=development
 CORS_ORIGIN=http://localhost:5173,http://127.0.0.1:5173
+# Opcional: patrones con * para orígenes de despliegue, separados por coma.
+CORS_ORIGIN_PATTERNS=
 SUPABASE_URL=
 SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=

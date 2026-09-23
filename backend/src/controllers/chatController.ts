@@ -1,5 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../middlewares/errorMiddleware.js";
+import {
+  buildOriginalExamStylePractice,
+  isPreviousExamWithAnswersRequest
+} from "../services/examPracticeService.js";
 import { generateTutorAnswer } from "../services/openrouterService.js";
 import { findKnowledgeContext } from "../services/knowledgeService.js";
 import {
@@ -65,6 +69,27 @@ export const sendChatMessage = async (
       content: message,
       topic
     });
+
+    if (isPreviousExamWithAnswersRequest(message)) {
+      const answer = buildOriginalExamStylePractice();
+      const assistantMessage = await createMessage(supabase, {
+        sessionId: session.id,
+        userId,
+        role: "assistant",
+        content: answer,
+        topic
+      });
+
+      await touchSession(supabase, userId, session.id);
+
+      res.status(201).json({
+        sessionId: session.id,
+        answer,
+        messageId: assistantMessage.id,
+        userMessageId: userMessage.id
+      });
+      return;
+    }
 
     const answer = await generateTutorAnswer(prompt);
 
