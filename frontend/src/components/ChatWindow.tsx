@@ -64,7 +64,6 @@ export function ChatWindow({
   const [message, setMessage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const messagesAreaRef = useRef<HTMLDivElement | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const shouldScrollToOwnMessageRef = useRef(false);
   const wasNearBottomRef = useRef(true);
   const tutorMessageRefs = useRef(new Map<string, HTMLElement>());
@@ -85,9 +84,22 @@ export function ChatWindow({
 
     if (hasNewTutorResponse) {
       if (wasNearBottomRef.current) {
-        tutorMessageRefs.current
-          .get(latestTutorMessage.id)
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const messagesArea = messagesAreaRef.current;
+        const tutorMessage = tutorMessageRefs.current.get(latestTutorMessage.id);
+
+        if (messagesArea && tutorMessage) {
+          const messagesAreaRect = messagesArea.getBoundingClientRect();
+          const tutorMessageRect = tutorMessage.getBoundingClientRect();
+
+          messagesArea.scrollTo({
+            top:
+              messagesArea.scrollTop +
+              tutorMessageRect.top -
+              messagesAreaRect.top -
+              8,
+            behavior: "smooth"
+          });
+        }
       }
       tutorMessageBeforeSendRef.current = undefined;
       shouldScrollToOwnMessageRef.current = false;
@@ -95,7 +107,14 @@ export function ChatWindow({
     }
 
     if (shouldScrollToOwnMessageRef.current || wasNearBottomRef.current) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const messagesArea = messagesAreaRef.current;
+
+      if (messagesArea) {
+        messagesArea.scrollTo({
+          top: messagesArea.scrollHeight,
+          behavior: "smooth"
+        });
+      }
       wasNearBottomRef.current = true;
     }
 
@@ -224,7 +243,6 @@ export function ChatWindow({
           ))}
 
           {sending ? <LoadingIndicator asMessage /> : null}
-          <div ref={messagesEndRef} />
         </div>
       </div>
 

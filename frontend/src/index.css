@@ -698,7 +698,7 @@ a:hover {
 .chat-window {
   grid-row: 3;
   min-height: 0;
-  height: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin: 8px 12px 10px;
@@ -713,6 +713,7 @@ a:hover {
 }
 
 .chat-context {
+  flex: 0 0 auto;
   min-height: 60px;
   display: grid;
   grid-template-columns: 1fr minmax(160px, auto) 1fr;
@@ -764,7 +765,7 @@ a:hover {
 .messages-area {
   min-height: 0;
   overflow-y: auto;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   padding: 0;
   background: transparent;
 }
@@ -973,9 +974,7 @@ a:hover {
 }
 
 .chat-input-bar {
-  position: sticky;
-  bottom: 0;
-  z-index: 50;
+  flex: 0 0 auto;
   display: grid;
   gap: 4px;
   padding: 8px 28px 10px;
